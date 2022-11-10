@@ -33,7 +33,7 @@ namespace Xunit.Internal
 			{
 				var fieldGetters =
 					_type
-						.GetRuntimeFields()
+						.GetFields(BindingFlags.Public | BindingFlags.Instance)
 						.Where(f => f.IsPublic && !f.IsStatic)
 #if XUNIT_NULLABLE
 						.Select(f => new { name = f.Name, getter = (Func<object?, object?>)f.GetValue });
@@ -43,7 +43,7 @@ namespace Xunit.Internal
 
 				var propertyGetters =
 					_type
-						.GetRuntimeProperties()
+						.GetProperties(BindingFlags.Public | BindingFlags.Instance)
 						.Where(p => p.CanRead)
 #if XUNIT_NULLABLE
 						.Select(p => new { name = p.Name, getter = (Func<object?, object?>)p.GetValue });
